@@ -17,7 +17,13 @@ import Animated, {
   useAnimatedStyle,
   withDecay,
 } from 'react-native-reanimated';
-import { BotomSheetLayout, BotomSheetText, IconGroup } from './src/components';
+import {
+  BotomSheetLayout,
+  BotomSheetText,
+  BottomSheetMenu,
+  IconGroup,
+  MenuItem,
+} from './src/components';
 
 const { width } = Dimensions.get('window');
 const size = width - 40;
@@ -37,7 +43,9 @@ export default function App() {
   ]);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [showOptions, setShowOptions] = useState(true);
+  const [colored, setColored] = useState(false);
+  const [addText, setAddText] = useState(false);
+  const [exported, setExported] = useState(false);
 
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(0);
@@ -132,6 +140,20 @@ export default function App() {
     updateStyleForSelectedElement({ [type]: !current[type] });
   };
 
+  const handlerPressMenu = (type: MenuItem) => {
+    switch (type.title) {
+      case 'Gaya':
+        setColored(!colored);
+        break;
+      case 'Tambah':
+        setAddText(!addText);
+        break;
+      case 'Export':
+        setExported(!exported);
+        break;
+    }
+  };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -197,19 +219,20 @@ export default function App() {
           </GestureDetector>
         ))}
 
+        <BottomSheetMenu visible onPress={handlerPressMenu} />
+
         <BotomSheetLayout
-          onClose={() => {}}
-          visible={selectedIndex !== -1}
-          // visible={true}
-          onStyleSelected={item => updateStyleForSelectedElement(item)}
+          visible={colored}
+          onClose={() => setColored(false)}
           setTextStyle={item => toggleStyle(item)}
+          onStyleSelected={item => updateStyleForSelectedElement(item)}
           strokeValue={String(elements[selectedIndex]?.strokeWidth ?? 0)}
         />
 
         <BotomSheetText
-          visible={showOptions}
+          visible={addText}
           onPress={item => handleOptionPress(item)}
-          onClose={() => setShowOptions(false)}
+          onClose={() => setAddText(false)}
         />
       </View>
     </GestureHandlerRootView>

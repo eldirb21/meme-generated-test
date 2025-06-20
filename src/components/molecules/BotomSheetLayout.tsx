@@ -32,7 +32,7 @@ export const BotomSheetLayout = ({
   strokeValue,
 }: Props) => {
   return (
-    <BottomSheet visible={visible} onClose={onClose} title="Pilihan">
+    <BottomSheet withHeader visible={visible} onClose={onClose} title="Pilihan">
       <Text style={styles.panelTitle}>Warna Teks</Text>
       <View style={styles.colorRow}>
         {colors.map(c => (

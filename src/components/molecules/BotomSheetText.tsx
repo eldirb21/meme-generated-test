@@ -10,7 +10,7 @@ type Props = {
 
 export const BotomSheetText = ({ onPress, visible, onClose }: Props) => {
   return (
-    <BottomSheet visible={visible} onClose={onClose} title="Pilihan">
+    <BottomSheet withHeader visible={visible} onClose={onClose} title="Pilihan">
       <FlatList
         data={['Teks', 'Gambar', 'Hapus semua']}
         keyExtractor={item => item}

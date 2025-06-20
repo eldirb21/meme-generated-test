@@ -1,26 +1,43 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import React, { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
   visible?: boolean;
   title?: string;
+  withHeader?: boolean;
   onClose?: () => void;
+  style?: ViewStyle;
 };
 
-export const BottomSheet = ({ children, visible, title, onClose }: Props) => {
+export const BottomSheet = ({
+  children,
+  visible,
+  title,
+  onClose,
+  withHeader,
+  style,
+}: Props) => {
   if (!visible) return null;
 
   return (
-    <View style={styles.bottomSheet}>
-      <View style={styles.sheetHeader}>
-        <Text style={styles.sheetTitle}>{title}</Text>
-        {onClose && (
-          <TouchableOpacity onPress={onClose}>
-            <Text style={styles.icon}>✕</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+    <View style={[styles.bottomSheet, style]}>
+      {withHeader && (
+        <View style={styles.sheetHeader}>
+          <Text style={styles.sheetTitle}>{title}</Text>
+          {onClose && (
+            <TouchableOpacity onPress={onClose}>
+              <Text style={styles.icon}>✕</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
       {children}
     </View>
   );
