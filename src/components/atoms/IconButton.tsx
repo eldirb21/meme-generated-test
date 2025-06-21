@@ -19,11 +19,14 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#000',
     borderRadius: 20,
-    padding: 4,
+    height: 24,
+    width: 24,
     elevation: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: {
-    fontSize: 18,
+    fontSize: 10,
     color: '#fff',
   },
 });

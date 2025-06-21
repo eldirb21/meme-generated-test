@@ -10,7 +10,13 @@ type Props = {
 
 export const BotomSheetText = ({ onPress, visible, onClose }: Props) => {
   return (
-    <BottomSheet withHeader visible={visible} onClose={onClose} title="Pilihan">
+    <BottomSheet
+      withHeader
+      style={styles.bottomSheet}
+      visible={visible}
+      onClose={onClose}
+      title="Pilihan"
+    >
       <FlatList
         data={['Teks', 'Gambar', 'Hapus semua']}
         keyExtractor={item => item}
@@ -33,6 +39,9 @@ export const BotomSheetText = ({ onPress, visible, onClose }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  bottomSheet: {
+    zIndex: 99,
+  },
   sheetItem: {
     paddingVertical: 10,
   },

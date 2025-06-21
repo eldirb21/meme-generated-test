@@ -3,33 +3,38 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Text,
-  Pressable,
-  TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {
   GestureHandlerRootView,
   GestureDetector,
-  Gesture,
 } from 'react-native-gesture-handler';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withDecay,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import {
+  BooleanKeys,
   BotomSheetLayout,
   BotomSheetText,
   BottomSheetMenu,
-  IconGroup,
+  DraggableTextItem,
   MenuItem,
 } from './src/components';
+import {
+  ElementProps,
+  useCardGesture,
+  useKeyboardVisible,
+  useTextOptions,
+} from './src/hooks';
+import { Func } from './src/utils';
 
 const { width } = Dimensions.get('window');
 const size = width - 40;
 
 export default function App() {
-  const [elements, setElements] = useState([
+  const isKeyboardShow = useKeyboardVisible();
+  const { composedGesture, animatedStyle } = useCardGesture();
+
+  const [elements, setElements] = useState<ElementProps[]>([
     {
       id: 1,
       text: 'Tambah\nkata',
@@ -39,6 +44,8 @@ export default function App() {
       bold: false,
       italic: false,
       strokeWidth: 1,
+      x: 0,
+      y: 0,
     },
   ]);
 
@@ -47,85 +54,29 @@ export default function App() {
   const [addText, setAddText] = useState(false);
   const [exported, setExported] = useState(false);
 
-  const scale = useSharedValue(1);
-  const offsetX = useSharedValue(0);
-  const offsetY = useSharedValue(0);
-  const startX = useSharedValue(0);
-  const startY = useSharedValue(0);
-
-  const pinchGesture = Gesture.Pinch().onUpdate(e => {
-    scale.value = e.scale;
-  });
-
-  const panGesture = Gesture.Pan()
-    .onStart(() => {
-      startX.value = offsetX.value;
-      startY.value = offsetY.value;
-    })
-    .onUpdate(e => {
-      offsetX.value = startX.value + e.translationX;
-      offsetY.value = startY.value + e.translationY;
-    })
-    .onEnd(e => {
-      offsetX.value = withDecay({ velocity: e.velocityX });
-      offsetY.value = withDecay({ velocity: e.velocityY });
-    });
-
-  const composed = Gesture.Simultaneous(panGesture, pinchGesture);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: offsetX.value },
-      { translateY: offsetY.value },
-      { scale: scale.value },
-    ],
-  }));
-
-  const handleDelete = () => {
-    setElements(prev => prev.filter((_, i) => i !== selectedIndex));
+  const handleDelete = (index: number) => {
+    setElements(prev => prev.filter((_, i) => i !== index));
     setSelectedIndex(-1);
   };
 
-  const handleDuplicate = () => {
-    const source = elements[selectedIndex];
+  const handleDuplicate = (index: number) => {
+    const source = elements[index];
     const newElement = {
       ...source,
       id: Date.now(),
+      x: source.x + 20,
+      y: source.y + 20,
     };
     setElements(prev => [...prev, newElement]);
-    setSelectedIndex(elements.length);
   };
 
-  const handleOptionPress = (option: string) => {
-    if (option === 'Hapus semua') {
-      setElements([]);
-      setSelectedIndex(-1);
-    }
-    if (option === 'Teks') {
-      setElements(prev => [
-        ...prev,
-        {
-          id: Date.now(),
-          text: 'Teks baru',
-          editable: false,
-          color: '#000',
-          strokeColor: '#000',
-          bold: false,
-          italic: false,
-          strokeWidth: 1,
-        },
-      ]);
-      setSelectedIndex(elements.length);
-    }
-  };
+  const { onTextOptions } = useTextOptions(
+    elements,
+    setElements,
+    setSelectedIndex,
+  );
 
-  const handleTextChange = (value: string, index: number) => {
-    const updated = [...elements];
-    updated[index].text = value;
-    setElements(updated);
-  };
-
-  const updateStyleForSelectedElement = (newStyle: {
+  const updateStyleSelected = (newStyle: {
     [x: string]: boolean | number | string;
   }) => {
     if (selectedIndex === -1) return;
@@ -134,112 +85,113 @@ export default function App() {
     setElements(updated);
   };
 
-  const toggleStyle = (type: string) => {
+  const toggleStyle = (type: BooleanKeys) => {
     if (selectedIndex === -1) return;
     const current = elements[selectedIndex];
-    updateStyleForSelectedElement({ [type]: !current[type] });
-  };
 
-  const handlerPressMenu = (type: MenuItem) => {
-    switch (type.title) {
-      case 'Gaya':
-        setColored(!colored);
-        break;
-      case 'Tambah':
-        setAddText(!addText);
-        break;
-      case 'Export':
-        setExported(!exported);
-        break;
+    if (typeof current[type] === 'boolean') {
+      updateStyleSelected({ [type]: !current[type] });
     }
   };
 
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        {elements.map((item, index) => (
-          <GestureDetector key={item.id} gesture={composed}>
-            <Animated.View style={[styles.card, animatedStyle]}>
-              <Pressable onPress={() => setSelectedIndex(index)}>
-                <View style={styles.selectionBox}>
-                  {item.editable ? (
-                    <TextInput
-                      multiline
-                      value={item.text}
-                      onChangeText={value => handleTextChange(value, index)}
-                      style={[
-                        styles.input,
-                        {
-                          color: item.color,
-                          fontWeight: item.bold ? 'bold' : 'normal',
-                          fontStyle: item.italic ? 'italic' : 'normal',
-                        },
-                      ]}
-                      autoFocus
-                      onBlur={() => {
-                        const updated = [...elements];
-                        updated[index].editable = false;
-                        setElements(updated);
-                      }}
-                    />
-                  ) : (
-                    <Text
-                      style={[
-                        styles.text,
-                        {
-                          color: item.color,
-                          fontWeight: item.bold ? 'bold' : 'normal',
-                          fontStyle: item.italic ? 'italic' : 'normal',
-                          textShadowColor: item.strokeColor,
-                          textShadowOffset: {
-                            width: item.strokeWidth,
-                            height: item.strokeWidth,
-                          },
-                          textShadowRadius: item.strokeWidth,
-                        },
-                      ]}
-                    >
-                      {item.text}
-                    </Text>
-                  )}
+  const onPressMenu = (type: MenuItem) => {
+    Func.pressMenu(
+      type,
+      { setColored, setAddText, setExported },
+      { colored, addText, exported },
+    );
+  };
 
-                  <IconGroup
-                    visible={selectedIndex === index}
-                    onCopy={handleDuplicate}
-                    onDelete={handleDelete}
-                    onEdit={() => {
-                      const updated = [...elements];
-                      updated[index].editable = true;
-                      setElements(updated);
-                    }}
-                  />
-                </View>
-              </Pressable>
+  return (
+    <GestureHandlerRootView style={styles.flex}>
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+      >
+        <View style={styles.container}>
+          <GestureDetector gesture={composedGesture}>
+            <Animated.View style={[styles.card, animatedStyle]}>
+              {elements.map((item, index) => (
+                <DraggableTextItem
+                  key={item.id ?? index}
+                  item={item}
+                  index={index}
+                  isSelected={selectedIndex === index}
+                  onSelect={() => {
+                    setSelectedIndex(index);
+                    setElements(prev =>
+                      Func.setModel('editable', index, true, prev),
+                    );
+                  }}
+                  onChange={text =>
+                    setElements(prev =>
+                      Func.setModel('text', index, text, prev),
+                    )
+                  }
+                  onBlur={() =>
+                    setElements(prev =>
+                      Func.setModel('editable', index, false, prev),
+                    )
+                  }
+                  onDelete={() => handleDelete(index)}
+                  onDuplicate={() => handleDuplicate(index)}
+                  styleInput={[
+                    styles.input,
+                    Func.styledText(
+                      item.color ?? '#000',
+                      item.bold ?? false,
+                      item.italic ?? false,
+                    ),
+                  ]}
+                  styleText={[
+                    styles.text,
+                    Func.styledText(
+                      item.color ?? '#000',
+                      item.bold ?? false,
+                      item.italic ?? false,
+                    ),
+                    {
+                      textShadowColor: item.strokeColor ?? '#000',
+                      textShadowOffset: {
+                        width: item.strokeWidth ?? 0,
+                        height: item.strokeWidth ?? 0,
+                      },
+                      textShadowRadius: item.strokeWidth ?? 0,
+                    },
+                  ]}
+                />
+              ))}
             </Animated.View>
           </GestureDetector>
-        ))}
 
-        <BottomSheetMenu visible onPress={handlerPressMenu} />
+          {!isKeyboardShow && (
+            <>
+              <BotomSheetLayout
+                visible={colored}
+                onClose={() => setColored(false)}
+                setTextStyle={item => toggleStyle(item)}
+                onStyleSelected={item => updateStyleSelected(item)}
+                strokeValue={String(elements[selectedIndex]?.strokeWidth ?? 0)}
+              />
 
-        <BotomSheetLayout
-          visible={colored}
-          onClose={() => setColored(false)}
-          setTextStyle={item => toggleStyle(item)}
-          onStyleSelected={item => updateStyleForSelectedElement(item)}
-          strokeValue={String(elements[selectedIndex]?.strokeWidth ?? 0)}
-        />
+              <BotomSheetText
+                visible={addText}
+                onPress={item => onTextOptions(item)}
+                onClose={() => setAddText(false)}
+              />
 
-        <BotomSheetText
-          visible={addText}
-          onPress={item => handleOptionPress(item)}
-          onClose={() => setAddText(false)}
-        />
-      </View>
+              <BottomSheetMenu visible onPress={onPressMenu} />
+            </>
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
+  flex: { flex: 1 },
   container: {
     flex: 1,
     backgroundColor: '#f2f2f6',

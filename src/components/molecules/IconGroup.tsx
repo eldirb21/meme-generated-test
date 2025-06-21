@@ -6,18 +6,15 @@ type Props = {
   visible: boolean;
   onCopy: () => void;
   onDelete: () => void;
-  onEdit: () => void;
 };
 
-export const IconGroup = ({ visible, onCopy, onDelete, onEdit }: Props) => {
+export const IconGroup = ({ visible, onCopy, onDelete }: Props) => {
   if (!visible) return null;
   return (
     <>
       <IconButton icon="📄" onPress={onCopy} style={styles.duplicateIcon} />
 
       <IconButton icon="❌" onPress={onDelete} style={styles.deleteIcon} />
-
-      <IconButton icon="✏️" onPress={onEdit} style={styles.editIcon} />
     </>
   );
 };

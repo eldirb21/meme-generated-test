@@ -1,13 +1,27 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import { BottomSheet } from '../atoms/BottomSheet';
 import { Sliders } from '../atoms/Sliders';
+import { ElementProps } from '../../hooks';
+
+export type BooleanKeys = Extract<
+  {
+    [K in keyof ElementProps]: ElementProps[K] extends boolean ? K : never;
+  }[keyof ElementProps],
+  string
+>;
 
 type Props = {
-  onStyleSelected: (item: any) => void;
+  onStyleSelected: (item: Partial<ElementProps>) => void;
   visible: boolean;
   onClose: () => void;
-  setTextStyle: (item: string) => void;
+  setTextStyle: (item: BooleanKeys) => void;
   strokeValue: string;
 };
 const colors = [
@@ -32,7 +46,13 @@ export const BotomSheetLayout = ({
   strokeValue,
 }: Props) => {
   return (
-    <BottomSheet withHeader visible={visible} onClose={onClose} title="Pilihan">
+    <BottomSheet
+      withHeader
+      visible={visible}
+      onClose={onClose}
+      title="Pilihan"
+      style={styles.bottomSheet}
+    >
       <Text style={styles.panelTitle}>Warna Teks</Text>
       <View style={styles.colorRow}>
         {colors.map(c => (
@@ -50,15 +70,13 @@ export const BotomSheetLayout = ({
           onPress={() => setTextStyle('bold')}
           style={styles.formatButton}
         >
-          <Text style={[styles.formatText, { fontWeight: 'bold' }]}>bold</Text>
+          <Text style={[styles.formatText, $font(true, false)]}>bold</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setTextStyle('italic')}
           style={styles.formatButton}
         >
-          <Text style={[styles.formatText, { fontStyle: 'italic' }]}>
-            italic
-          </Text>
+          <Text style={[styles.formatText, $font(false, true)]}>italic</Text>
         </TouchableOpacity>
       </View>
 
@@ -77,13 +95,20 @@ export const BotomSheetLayout = ({
 
       <Sliders
         value={strokeValue}
-        onValueChange={val => onStyleSelected({ strokeWidth: val })}
+        onValueChange={(val: number) => onStyleSelected({ strokeWidth: val })}
       />
     </BottomSheet>
   );
 };
+const $font = (bold: boolean, italic: boolean): TextStyle => ({
+  fontWeight: bold ? 'bold' : 'normal',
+  fontStyle: italic ? 'italic' : 'normal',
+});
 
 const styles = StyleSheet.create({
+  bottomSheet: {
+    zIndex: 99,
+  },
   panelTitle: {
     color: '#fff',
     fontWeight: '600',
@@ -118,5 +143,5 @@ const styles = StyleSheet.create({
   formatText: {
     color: '#fff',
     fontSize: 14,
-  }, 
+  },
 });

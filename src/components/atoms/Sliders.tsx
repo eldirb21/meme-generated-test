@@ -3,7 +3,7 @@ import React from 'react';
 import Slider from '@react-native-community/slider';
 
 type Props = {
-  onValueChange: (item: string | number) => void;
+  onValueChange: (item: number) => void;
   value: string | number;
 };
 
