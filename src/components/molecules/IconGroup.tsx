@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
 import React from 'react';
 import { IconButton } from '..';
 import { IconGroupProps } from '../../services';
+import { styles } from './styles';
 
 export const IconGroup = ({ visible, onCopy, onDelete }: IconGroupProps) => {
   if (!visible) return null;
@@ -13,21 +13,3 @@ export const IconGroup = ({ visible, onCopy, onDelete }: IconGroupProps) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  deleteIcon: {
-    position: 'absolute',
-    top: -10,
-    right: -10,
-  },
-  duplicateIcon: {
-    position: 'absolute',
-    top: -10,
-    left: -10,
-  },
-  editIcon: {
-    position: 'absolute',
-    bottom: -10,
-    right: -10,
-  },
-});

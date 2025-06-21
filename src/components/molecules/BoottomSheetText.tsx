@@ -1,7 +1,8 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { FlatList, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { BoottomSheet } from '..';
-import { BoottomSheetTextProps } from '../../services';
+import { BoottomSheetTextProps, dataSheetText } from '../../services';
+import { styles } from './styles';
 
 export const BoottomSheetText = ({
   onPress,
@@ -11,13 +12,13 @@ export const BoottomSheetText = ({
   return (
     <BoottomSheet
       withHeader
-      style={styles.boottomSheet}
+      style={styles.bottomSheet}
       visible={visible}
       onClose={onClose}
       title="Pilihan"
     >
       <FlatList
-        data={['Teks', 'Gambar', 'Hapus semua']}
+        data={dataSheetText}
         keyExtractor={item => item}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -36,16 +37,3 @@ export const BoottomSheetText = ({
     </BoottomSheet>
   );
 };
-
-const styles = StyleSheet.create({
-  boottomSheet: {
-    zIndex: 99,
-  },
-  sheetItem: {
-    paddingVertical: 10,
-  },
-  sheetItemText: {
-    fontSize: 16,
-    color: '#fff',
-  },
-});

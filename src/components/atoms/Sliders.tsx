@@ -1,7 +1,9 @@
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
 import Slider from '@react-native-community/slider';
 import { SlidersProps } from '../../services';
+import { styles } from './styles';
+import { colors } from '../../utils';
 
 export const Sliders = ({ onValueChange, value }: SlidersProps) => {
   return (
@@ -11,26 +13,12 @@ export const Sliders = ({ onValueChange, value }: SlidersProps) => {
         minimumValue={0}
         maximumValue={10}
         step={0.5}
-        minimumTrackTintColor="#4da6ff"
-        maximumTrackTintColor="#2a2a2c"
-        thumbTintColor="#4da6ff"
+        minimumTrackTintColor={colors.sliderThumb}
+        maximumTrackTintColor={colors.sliderTrack}
+        thumbTintColor={colors.sliderThumb}
         value={Number(value)}
         onValueChange={onValueChange}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  sliderTrackWrapper: {
-    height: 40,
-    justifyContent: 'center',
-    borderRadius: 999,
-  },
-
-  slider: {
-    width: '100%',
-    height: '100%',
-    transform: [{ scaleY: 1.5 }],
-  },
-});

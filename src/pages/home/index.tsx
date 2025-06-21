@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import {
@@ -14,10 +14,8 @@ import {
   BoottomSheetText,
   DraggableTextItem,
 } from '../../components';
-import { Func } from '../../utils';
-
-const { width } = Dimensions.get('window');
-const size = width - 40;
+import { colors, Func } from '../../utils';
+import { styles } from './styles';
 
 export default function Home() {
   const isKeyboardShow = useKeyboardVisible();
@@ -107,7 +105,7 @@ export default function Home() {
               styleInput={[
                 styles.input,
                 Func.styledText(
-                  item.color ?? '#000',
+                  item.color ?? colors.textSecondary,
                   item.bold ?? false,
                   item.italic ?? false,
                 ),
@@ -115,12 +113,12 @@ export default function Home() {
               styleText={[
                 styles.text,
                 Func.styledText(
-                  item.color ?? '#000',
+                  item.color ?? colors.textSecondary,
                   item.bold ?? false,
                   item.italic ?? false,
                 ),
                 {
-                  textShadowColor: item.strokeColor ?? '#000',
+                  textShadowColor: item.strokeColor ?? colors.textSecondary,
                   textShadowOffset: {
                     width: item.strokeWidth ?? 0,
                     height: item.strokeWidth ?? 0,
@@ -159,43 +157,3 @@ export default function Home() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f2f2f6',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  card: {
-    height: size,
-    width: size,
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-  },
-  selectionBox: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: '#009aff',
-    borderStyle: 'dashed',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 22,
-    textAlign: 'center',
-  },
-  input: {
-    fontSize: 22,
-    textAlign: 'center',
-    padding: 0,
-  },
-});

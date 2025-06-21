@@ -1,7 +1,8 @@
 import React from 'react';
-import { KeyboardAvoidingView, Platform, ViewStyle } from 'react-native';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from './src/pages/home';
+import { $flex } from './src/pages/home/styles';
 
 export default function App() {
   return (
@@ -16,5 +17,3 @@ export default function App() {
     </GestureHandlerRootView>
   );
 }
-
-const $flex: ViewStyle = { flex: 1 };

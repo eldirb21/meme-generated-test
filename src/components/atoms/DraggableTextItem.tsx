@@ -1,11 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
@@ -16,6 +10,7 @@ import Animated, {
 import { IconGroup } from '../molecules/IconGroup';
 import { DraggableTextItemProps } from '../../services';
 import { useKeyboardVisible } from '../../hooks';
+import { styles } from './styles';
 
 export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
   item,
@@ -104,17 +99,3 @@ export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
     </GestureDetector>
   );
 };
-
-const styles = StyleSheet.create({
-  selectionBox: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: '#009aff',
-    borderStyle: 'dashed',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  absolute: {
-    position: 'absolute',
-  },
-});

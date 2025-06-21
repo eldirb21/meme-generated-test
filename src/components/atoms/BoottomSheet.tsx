@@ -1,6 +1,7 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { BoottomSheetProps } from '../../services';
+import { styles } from './styles';
 
 export const BoottomSheet = ({
   children,
@@ -28,31 +29,3 @@ export const BoottomSheet = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  boottomSheet: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    backgroundColor: '#1c1c1e',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 16,
-  },
-  sheetHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  sheetTitle: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-
-  icon: {
-    fontSize: 18,
-    color: '#fff',
-  },
-});
