@@ -7,22 +7,33 @@ const menus: MenuItem[] = [
   {
     title: 'Gaya',
     color: colors.gold,
-    icon: '🖌',
+    icon: 'brush',
   },
   {
     title: 'Tambah',
     color: colors.blueLight,
-    icon: '＋',
+    icon: 'plus',
   },
   {
     title: 'Export',
     color: colors.blue,
-    icon: '⬇️',
+    icon: 'tray-arrow-down',
   },
 ];
 
-const dataSheetText = ['Teks', 'Gambar', 'Hapus semua'];
-
-
+const dataSheetText = [
+  {
+    title: 'Teks',
+    icon: 'format-text',
+  },
+  {
+    title: 'Gambar',
+    icon: 'image-outline',
+  },
+  {
+    title: 'Hapus semua',
+    icon: 'trash-can-outline',
+  },
+];
 
 export { colorData, menus, dataSheetText };

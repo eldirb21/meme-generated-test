@@ -7,9 +7,9 @@ export const IconGroup = ({ visible, onCopy, onDelete }: IconGroupProps) => {
   if (!visible) return null;
   return (
     <>
-      <IconButton icon="📄" onPress={onCopy} style={styles.duplicateIcon} />
+      <IconButton icon="content-copy" onPress={onCopy} style={styles.duplicateIcon} />
 
-      <IconButton icon="❌" onPress={onDelete} style={styles.deleteIcon} />
+      <IconButton icon="close" onPress={onDelete} style={styles.deleteIcon} />
     </>
   );
 };

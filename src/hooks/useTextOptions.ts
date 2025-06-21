@@ -12,7 +12,6 @@ export const useTextOptions = (
         setElements([]);
         setSelectedIndex(-1);
       }
-
       if (option === 'Teks') {
         if (elements.length <= 0) {
           setElements(prev => [

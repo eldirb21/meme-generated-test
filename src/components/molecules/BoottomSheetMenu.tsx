@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { BoottomSheet } from '..';
+import { BoottomSheet, Icons } from '..';
 import { BoottomSheetMenuProps, menus } from '../../services';
 import { styled, styles } from './styles';
 
@@ -20,7 +20,12 @@ export const BoottomSheetMenu = ({
             onPress={() => onPress(item)}
             style={styled.item(item.color)}
           >
-            <Text style={styled.itemText(item.color)}>{item.icon}</Text>
+            <Icons
+              name={item.icon}
+              type="MaterialCommunityIcons"
+              color={item.color}
+              size={20}
+            />
             <Text style={styled.itemText(item.color)}>{item.title}</Text>
           </TouchableOpacity>
         ))}

@@ -1,4 +1,4 @@
-import { ViewStyle, TextStyle } from 'react-native';
+import { ViewStyle, TextStyle, StyleSheet } from 'react-native';
 import { colors } from '../../utils';
 
 type Styles = {
@@ -9,9 +9,9 @@ type Styles = {
   selectionBox: ViewStyle;
   absolute: ViewStyle;
   button: ViewStyle;
-  iconButton: TextStyle;
   sliderTrackWrapper: ViewStyle;
   slider: ViewStyle;
+  overlay: ViewStyle;
 };
 
 export const styles: Styles = {
@@ -20,9 +20,18 @@ export const styles: Styles = {
     bottom: 0,
     width: '100%',
     backgroundColor: colors.backgroundDark,
+    padding: 16,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: -2 },
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   sheetHeader: {
     flexDirection: 'row',
@@ -51,17 +60,11 @@ export const styles: Styles = {
     position: 'absolute',
   },
   button: {
-    backgroundColor: colors.textSecondary,
     borderRadius: 20,
     height: 24,
     width: 24,
-    elevation: 2,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  iconButton: {
-    fontSize: 10,
-    color: colors.white,
   },
   sliderTrackWrapper: {
     height: 40,

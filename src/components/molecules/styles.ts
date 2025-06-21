@@ -83,6 +83,8 @@ export const styles: Styles = {
   },
   sheetItem: {
     paddingVertical: 10,
+    flexDirection: 'row',
+    gap: 6,
   },
   sheetItemText: {
     fontSize: 16,
@@ -90,13 +92,13 @@ export const styles: Styles = {
   },
   deleteIcon: {
     position: 'absolute',
-    top: -10,
-    right: -10,
+    top: -18,
+    right: -18,
   },
   duplicateIcon: {
     position: 'absolute',
-    top: -10,
-    left: -10,
+    top: -20,
+    left: -20,
   },
 };
 export const $font = (bold: boolean, italic: boolean): TextStyle => ({

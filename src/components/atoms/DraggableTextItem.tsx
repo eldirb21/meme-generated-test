@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, {
@@ -9,7 +9,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { IconGroup } from '../molecules/IconGroup';
 import { DraggableTextItemProps } from '../../services';
-import { useKeyboardVisible } from '../../hooks';
 import { styles } from './styles';
 
 export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
@@ -23,7 +22,6 @@ export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
   styleInput,
   styleText,
 }) => {
-  const isKeyboardShow = useKeyboardVisible();
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(item.x || 0);
   const offsetY = useSharedValue(item.y || 0);
@@ -59,16 +57,6 @@ export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
       { scale: scale.value },
     ],
   }));
-  useEffect(() => {
-    if (!isKeyboardShow) {
-      dismissKeyboard();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isKeyboardShow]);
-
-  const dismissKeyboard = () => {
-    onBlur();
-  };
 
   return (
     <GestureDetector gesture={composedGesture}>
