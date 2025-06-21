@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Text,
   TextInput,
   View,
   TouchableOpacity,
-  TextStyle,
-  StyleProp,
   StyleSheet,
 } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
@@ -16,20 +14,8 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { IconGroup } from '../molecules/IconGroup';
-import { ElementProps } from '../../hooks';
-
-type DraggableTextItemProps = {
-  item: ElementProps;
-  index: number;
-  isSelected: boolean;
-  onSelect: () => void;
-  onChange: (text: string) => void;
-  onBlur: () => void;
-  onDelete: () => void;
-  onDuplicate: () => void;
-  styleInput?: StyleProp<TextStyle>;
-  styleText?: StyleProp<TextStyle>;
-};
+import { DraggableTextItemProps } from '../../services';
+import { useKeyboardVisible } from '../../hooks';
 
 export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
   item,
@@ -42,15 +28,12 @@ export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
   styleInput,
   styleText,
 }) => {
+  const isKeyboardShow = useKeyboardVisible();
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(item.x || 0);
   const offsetY = useSharedValue(item.y || 0);
   const startX = useSharedValue(0);
   const startY = useSharedValue(0);
-
-  const pinchGesture = Gesture.Pinch().onUpdate(e => {
-    scale.value = e.scale;
-  });
 
   const panGesture = Gesture.Pan()
     .onStart(() => {
@@ -68,6 +51,10 @@ export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
       offsetY.value = withDecay({ velocity: e.velocityY });
     });
 
+  const pinchGesture = Gesture.Pinch().onUpdate(e => {
+    scale.value = e.scale;
+  });
+
   const composedGesture = Gesture.Simultaneous(panGesture, pinchGesture);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -77,11 +64,21 @@ export const DraggableTextItem: React.FC<DraggableTextItemProps> = ({
       { scale: scale.value },
     ],
   }));
+  useEffect(() => {
+    if (!isKeyboardShow) {
+      dismissKeyboard();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isKeyboardShow]);
+
+  const dismissKeyboard = () => {
+    onBlur();
+  };
 
   return (
     <GestureDetector gesture={composedGesture}>
       <Animated.View style={[animatedStyle, styles.absolute]}>
-        <TouchableOpacity onPress={onSelect} activeOpacity={0.9}>
+        <TouchableOpacity onPress={onSelect}>
           <View style={styles.selectionBox}>
             {item.editable ? (
               <TextInput

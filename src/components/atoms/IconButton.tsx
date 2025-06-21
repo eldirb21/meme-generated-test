@@ -1,13 +1,8 @@
-import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { IconButtonProps } from '../../services';
 
-type Props = {
-  onPress: () => void;
-  style: ViewStyle;
-  icon: string;
-};
-
-export const IconButton = ({ onPress, style, icon }: Props) => {
+export const IconButton = ({ onPress, style, icon }: IconButtonProps) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
       <Text style={styles.icon}>{icon}</Text>

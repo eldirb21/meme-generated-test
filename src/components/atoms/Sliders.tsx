@@ -1,13 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import Slider from '@react-native-community/slider';
+import { SlidersProps } from '../../services';
 
-type Props = {
-  onValueChange: (item: number) => void;
-  value: string | number;
-};
-
-export const Sliders = ({ onValueChange, value }: Props) => {
+export const Sliders = ({ onValueChange, value }: SlidersProps) => {
   return (
     <View style={styles.sliderTrackWrapper}>
       <Slider

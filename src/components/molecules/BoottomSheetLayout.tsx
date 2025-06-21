@@ -6,24 +6,10 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import { BottomSheet } from '../atoms/BottomSheet';
+import { BoottomSheet } from '..';
 import { Sliders } from '../atoms/Sliders';
-import { ElementProps } from '../../hooks';
+import { BoottomSheetLayoutProps } from '../../services';
 
-export type BooleanKeys = Extract<
-  {
-    [K in keyof ElementProps]: ElementProps[K] extends boolean ? K : never;
-  }[keyof ElementProps],
-  string
->;
-
-type Props = {
-  onStyleSelected: (item: Partial<ElementProps>) => void;
-  visible: boolean;
-  onClose: () => void;
-  setTextStyle: (item: BooleanKeys) => void;
-  strokeValue: string;
-};
 const colors = [
   '#000',
   '#808080',
@@ -38,20 +24,20 @@ const colors = [
   '#ffc0cb',
 ];
 
-export const BotomSheetLayout = ({
+export const BoottomSheetLayout = ({
   onStyleSelected,
   visible,
   onClose,
   setTextStyle,
   strokeValue,
-}: Props) => {
+}: BoottomSheetLayoutProps) => {
   return (
-    <BottomSheet
+    <BoottomSheet
       withHeader
       visible={visible}
       onClose={onClose}
       title="Pilihan"
-      style={styles.bottomSheet}
+      style={styles.boottomSheet}
     >
       <Text style={styles.panelTitle}>Warna Teks</Text>
       <View style={styles.colorRow}>
@@ -97,7 +83,7 @@ export const BotomSheetLayout = ({
         value={strokeValue}
         onValueChange={(val: number) => onStyleSelected({ strokeWidth: val })}
       />
-    </BottomSheet>
+    </BoottomSheet>
   );
 };
 const $font = (bold: boolean, italic: boolean): TextStyle => ({
@@ -106,7 +92,7 @@ const $font = (bold: boolean, italic: boolean): TextStyle => ({
 });
 
 const styles = StyleSheet.create({
-  bottomSheet: {
+  boottomSheet: {
     zIndex: 99,
   },
   panelTitle: {

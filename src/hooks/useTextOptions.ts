@@ -1,17 +1,5 @@
 import { useCallback } from 'react';
-
-export type ElementProps = {
-  id: number;
-  text: string;
-  editable: boolean;
-  color: string;
-  strokeColor: string;
-  bold: boolean;
-  italic: boolean;
-  strokeWidth: number;
-  x: number;
-  y: number;
-};
+import { ElementProps } from '../services';
 
 export const useTextOptions = (
   elements: ElementProps[],

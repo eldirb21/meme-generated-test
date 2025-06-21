@@ -1,16 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { BottomSheet } from '../atoms/BottomSheet';
-
-type Props = {
-  onPress: (item: MenuItem) => void;
-  visible: boolean;
-};
-export interface MenuItem {
-  title: string;
-  color: string;
-  icon: string;
-}
+import { BoottomSheet } from '..';
+import { BoottomSheetMenuProps, MenuItem } from '../../services';
 
 const menus: MenuItem[] = [
   {
@@ -29,7 +20,11 @@ const menus: MenuItem[] = [
     icon: '⬇️',
   },
 ];
-export const BottomSheetMenu = ({ onPress, visible }: Props) => {
+export const BoottomSheetMenu = ({
+  onPress,
+  visible,
+  withStyle,
+}: BoottomSheetMenuProps) => {
   const styled = {
     item: (color: string) => ({
       borderColor: color,
@@ -40,10 +35,12 @@ export const BottomSheetMenu = ({ onPress, visible }: Props) => {
       ...styles.itemText,
     }),
   };
+
+  const menuList = !withStyle ? menus.filter(x => x.title !== 'Gaya') : menus;
   return (
-    <BottomSheet style={styles.bottomSheet} visible={visible}>
+    <BoottomSheet style={styles.boottomSheet} visible={visible}>
       <View style={styles.container}>
-        {menus.map((item, index) => (
+        {menuList.map((item, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => onPress(item)}
@@ -54,18 +51,19 @@ export const BottomSheetMenu = ({ onPress, visible }: Props) => {
           </TouchableOpacity>
         ))}
       </View>
-    </BottomSheet>
+    </BoottomSheet>
   );
 };
 
 const styles = StyleSheet.create({
-  bottomSheet: {
+  boottomSheet: {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
   },
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 20,
   },
   itemMenu: {
     borderWidth: 1,

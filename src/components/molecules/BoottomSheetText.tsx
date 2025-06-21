@@ -1,18 +1,17 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { BottomSheet } from '../atoms/BottomSheet';
+import { BoottomSheet } from '..';
+import { BoottomSheetTextProps } from '../../services';
 
-type Props = {
-  onPress: (item: string) => void;
-  visible: boolean;
-  onClose: () => void;
-};
-
-export const BotomSheetText = ({ onPress, visible, onClose }: Props) => {
+export const BoottomSheetText = ({
+  onPress,
+  visible,
+  onClose,
+}: BoottomSheetTextProps) => {
   return (
-    <BottomSheet
+    <BoottomSheet
       withHeader
-      style={styles.bottomSheet}
+      style={styles.boottomSheet}
       visible={visible}
       onClose={onClose}
       title="Pilihan"
@@ -34,12 +33,12 @@ export const BotomSheetText = ({ onPress, visible, onClose }: Props) => {
           </TouchableOpacity>
         )}
       />
-    </BottomSheet>
+    </BoottomSheet>
   );
 };
 
 const styles = StyleSheet.create({
-  bottomSheet: {
+  boottomSheet: {
     zIndex: 99,
   },
   sheetItem: {

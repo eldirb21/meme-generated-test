@@ -1,14 +1,9 @@
 import { StyleSheet } from 'react-native';
 import React from 'react';
 import { IconButton } from '..';
+import { IconGroupProps } from '../../services';
 
-type Props = {
-  visible: boolean;
-  onCopy: () => void;
-  onDelete: () => void;
-};
-
-export const IconGroup = ({ visible, onCopy, onDelete }: Props) => {
+export const IconGroup = ({ visible, onCopy, onDelete }: IconGroupProps) => {
   if (!visible) return null;
   return (
     <>

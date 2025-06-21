@@ -1,33 +1,19 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
-import React, { ReactNode } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { BoottomSheetProps } from '../../services';
 
-type Props = {
-  children: ReactNode;
-  visible?: boolean;
-  title?: string;
-  withHeader?: boolean;
-  onClose?: () => void;
-  style?: ViewStyle;
-};
-
-export const BottomSheet = ({
+export const BoottomSheet = ({
   children,
   visible,
   title,
   onClose,
   withHeader,
   style,
-}: Props) => {
+}: BoottomSheetProps) => {
   if (!visible) return null;
 
   return (
-    <View style={[styles.bottomSheet, style]}>
+    <View style={[styles.boottomSheet, style]}>
       {withHeader && (
         <View style={styles.sheetHeader}>
           <Text style={styles.sheetTitle}>{title}</Text>
@@ -44,7 +30,7 @@ export const BottomSheet = ({
 };
 
 const styles = StyleSheet.create({
-  bottomSheet: {
+  boottomSheet: {
     position: 'absolute',
     bottom: 0,
     width: '100%',

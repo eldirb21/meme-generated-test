@@ -1,5 +1,5 @@
 import { TextStyle } from 'react-native';
-import { MenuItem } from '../components';
+import { MenuItem } from '../services';
 
 export const Func = {
   pressMenu: (
