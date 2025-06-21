@@ -1,8 +1,8 @@
 # 🚀 Meme Generated Test
 
-## Release
+### Release
 
-[Android](https://github.com/eldirb21/Notes/releases/tag/Android)
+[Android](https://github.com/eldirb21/meme-generated-test/releases/tag/Android)
 
 ## 📌 Persyaratan Sistem
 
