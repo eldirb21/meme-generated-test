@@ -1,5 +1,9 @@
 # 🚀 Meme Generated Test
 
+## Release
+
+[Android](https://github.com/eldirb21/Notes/releases/tag/Android)
+
 ## 📌 Persyaratan Sistem
 
 Pastikan kamu sudah menginstal:
@@ -35,4 +39,3 @@ npx pod-install
 | 📦 Android SDK     | `35.0.0`        |
 | 📦 Android NDK     | `27.1.12297006` |
 | 🍫 CocoaPods (pod) | `1.16.2`        |
-
